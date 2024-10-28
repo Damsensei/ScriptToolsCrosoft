@@ -24,7 +24,7 @@ Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB
 **Utilisation** :
 
 ```
-. "path\to\dms-functions-tools.ps1"  # Charger le fichier de fonctions
+. ".\includes\dms-functions-tools.ps1"  # Charger le fichier de fonctions
 ```
 
 
