@@ -2,7 +2,14 @@
 
 Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB et la gestion des Unités Organisationnelles (OU) dans un environnement Active Directory. Ces scripts sont conçus pour automatiser les tâches administratives, notamment le suivi des droits USB et le contrôle d'accès basé sur les OUs.
 
+## News
+- [2024/10] Both Interactive Region Detection Model and Icon functional description model are released! [Hugginface models](https://huggingface.co/microsoft/OmniParser)
+- [2024/09] OmniParser achieves the best performance on [Windows Agent Arena](https://microsoft.github.io/WindowsAgentArena/)! 
+
 ## Contenu du dépôt
+
+[![arXiv](https://img.shields.io/badge/Paper-green)](https://arxiv.org/abs/2408.00203)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### 1. `dms-functions-tools.ps1`
 
@@ -31,3 +38,6 @@ Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB
 - Mise à jour des droits : Actualise les droits USB en fonction des données contenues dans le fichier CSV.
 - Révocation automatique des droits : Supprime les droits USB après une période de temps spécifiée.
 - Journalisation : Enregistre des logs pour chaque action exécutée, permettant l'audit et la traçabilité.
+
+
+
