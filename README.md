@@ -1,4 +1,4 @@
-# DMS PowerShell Scripts
+# DAMScrosoft PowerShell Scripts
 
 Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB et la gestion des Unités Organisationnelles (OU) dans un environnement Active Directory. Ces scripts sont conçus pour automatiser les tâches administratives, notamment le suivi des droits USB et le contrôle d'accès basé sur les OUs.
 
