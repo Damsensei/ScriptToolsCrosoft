@@ -20,7 +20,7 @@ Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB
 Write-Log -LogMessage "Test de la fonction de log"
 
 
-### 1. `dms-main-ou-usb-rights.ps1`
+### 2. `dms-main-ou-usb-rights.ps1`
 
 **Description** : Script principal pour la gestion des droits USB en fonction des unités organisationnelles (OU). Il permet de vérifier, mettre à jour et révoquer les droits USB attribués aux ordinateurs selon des critères définis. Les données sont enregistrées dans un fichier CSV pour un suivi précis.
 
