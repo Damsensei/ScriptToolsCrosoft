@@ -2,22 +2,29 @@
     Author: DAMIEN CHANTEPIE 
     Reviewed : /
     Version: 1.0
-    Date: 2023-02-15
-    Description: Template des fichiers MAIN
+    Date: 2024-10-28
+    Description: Template des fichiers Create Rules Firewall
 #>
 
 
 ###################### INCLUDE  ###################################
-. "dms-functions-tools.ps1"
+
+$FunctiontPath = "..\includes\dms-functions-tools-XX.ps1"
+
+if (Test-Path $FunctiontPath) {
+    . $FunctiontPath
+} else {
+    Write-Host "Le fichier de script spécialisé est introuvable à $FunctiontPath" -ForegroundColor Red
+    exit
+}
 
 ###################### VARIABLES  ###################################
 
-$APPS = "APPLICATION"
-$APPS2 = "Template"
+$APPS = "WINDOWS Template"
+$APPS2 = "CreateFile"
 
-$DirectoryLog = "C:\PATH\LOG\$APPS"+"_"+"$APPS2.log"
-
-$Directory = "C:\PATH\SOURCES\$APPS\$APPS2"
+$DirectoryLog = "C:\damscrosoft\LOG\$APPS"+"_"+"$APPS2.log"
+$Directory = "C:\damscrosoft\SOURCES\$APPS\$APPS2"
 
 
 $HeartbeatFile = Join-Path $Directory $APPS2
