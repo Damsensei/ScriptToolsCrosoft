@@ -11,8 +11,8 @@
 ###################### VARIABLES ######################
 $APPS = "AD"
 $APPS2 = "RightUSB"
-$DirectoryLog = "C:\CYBER\LOG\$APPS"+"_"+"$APPS2.log" # Chemin du fichier de log
-$Directory = "C:\CYBER\SOURCES\$APPS\$APPS2"           # Répertoire source
+$DirectoryLog = "C:\PATH\LOG\$APPS"+"_"+"$APPS2.log" # Chemin du fichier de log
+$Directory = "C:\PATH\SOURCES\$APPS\$APPS2"           # Répertoire source
 $TimeToMove = "0"                                      # Temps avant la suppression des droits USB
 $PathRightUSBList = "$Directory\RightUSBList.csv"      # Fichier CSV pour les ordinateurs autorisés
 $PathRightUSBListException = "$Directory\RightUSBListException.csv" # Exceptions d'accès USB
