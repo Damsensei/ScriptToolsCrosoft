@@ -5,9 +5,7 @@ Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB
 ## News
 - [2024/10] Creation du repo et copie d'une partie des différents scripts que j'utilise ou que j'ai utiisé
 
-## Contenu du dépôt
-
-### 1. SCRIPT - TOOLS
+## 1. SCRIPT - TOOLS
 
 | Nom  | Description          | Utilisation |
 | :--------------- |:---------------:| -----:|
@@ -18,7 +16,7 @@ Ce dépôt contient des scripts PowerShell utiles pour la gestion des droits USB
 
 
 
-### 2. `REPERTOIRES`
+## 2. REPERTOIRES
 
 
 
