@@ -15,9 +15,9 @@
 $APPS = "APPLICATION"
 $APPS2 = "Template"
 
-$DirectoryLog = "C:\CYBER\LOG\$APPS"+"_"+"$APPS2.log"
+$DirectoryLog = "C:\PATH\LOG\$APPS"+"_"+"$APPS2.log"
 
-$Directory = "C:\CYBER\SOURCES\$APPS\$APPS2"
+$Directory = "C:\PATH\SOURCES\$APPS\$APPS2"
 
 
 $HeartbeatFile = Join-Path $Directory $APPS2
