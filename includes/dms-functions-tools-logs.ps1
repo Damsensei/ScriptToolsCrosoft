@@ -44,6 +44,7 @@ $PSDefaultParameterValues['*:Encoding'] = 'utf8'
         Write-Log -LogMessage "Erreur" -LogPath "C:\Logs\error.log" -Append:$False
 #>
 
+try {
 
 function Write-Log {
     param (
@@ -57,18 +58,20 @@ function Write-Log {
     if (!(Test-Path $Directory)) {
         New-Item -ItemType Directory -Path $Directory | Out-Null
     }
+
     # On affiche le message de log dans la console
     write-host "$LogMessage"
 
-    try {
+
         # On ajoute le message de log au fichier
         if ($Append) {
             #Add-Content $LogPath -Value "$(Get-Date -Format "yyyyMMdd-HHmmss") : $LogMessage"
-            "$(Get-Date -Format "yyyyMMdd-HHmmss") : $LogMessage" | Out-File $LogPath -Append 
+            "$(Get-Date -Format "yyyyMMdd-HHmmss") : $LogMessage" |�Out-File $LogPath -Append
         } else {
             Set-Content $LogPath -Value "$(Get-Date -Format "yyyyMMdd-HHmmss") : $LogMessage"
         }
-    } catch {
-        Write-Host "Error occured while writing to log file"
     }
+} 
+catch {
+    Write-Host "Error occured while writing to log file"
 }

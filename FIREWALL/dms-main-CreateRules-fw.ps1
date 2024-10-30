@@ -9,7 +9,8 @@
 
 ###################### INCLUDE  ###################################
 
-$FunctiontPath = "..\includes\dms-functions-tools-fw.ps1"
+#$FunctiontPath = "..\includes\dms-functions-tools-fw.ps1"
+$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "dms-functions-tools-logs.ps1"
 
 if (Test-Path $FunctiontPath) {
     . $FunctiontPath

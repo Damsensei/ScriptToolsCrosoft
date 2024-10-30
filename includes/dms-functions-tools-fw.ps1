@@ -16,7 +16,9 @@
 #############		Vérification en-tete    #############
 #########################################################
 
-$FunctiontPath = ".\dms-functions-tools-logs.ps1"
+#$FunctiontPath = "dms-functions-tools-logs.ps1"
+
+$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath ".\dms-functions-tools-logs.ps1"
 if (Test-Path $FunctiontPath) {
     . $FunctiontPath
 } else {
@@ -29,7 +31,6 @@ if (Test-Path $FunctiontPath) {
 #############		VARIABLES				#############
 #########################################################
 
-clear
 $PSDefaultParameterValues['*:Encoding'] = 'utf8'
 
 

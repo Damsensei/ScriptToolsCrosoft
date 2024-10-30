@@ -1,8 +1,4 @@
-﻿# Afficher le menu
-Show-Menu
-
-
-<#
+﻿<#
     Author: DAMIEN CHANTEPIE 
     Reviewed : /
     Version: 1.0
@@ -13,7 +9,9 @@ Show-Menu
 
 ###################### INCLUDE  ###################################
 
-$FunctiontPath = ".\includes\dms-functions-tools-fw.ps1"
+#$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "includes\dms-functions-tools-fw.ps1"
+$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "..\includes\dms-functions-tools-fw.ps1"
+
 
 if (Test-Path $FunctiontPath) {
     . $FunctiontPath
@@ -24,7 +22,7 @@ if (Test-Path $FunctiontPath) {
 
 ###################### VARIABLES  ###################################
 
-$APPS = "WINDOWS Template"
+$APPS = "WINDOWSTemplate"
 $APPS2 = "CreateFile"
 
 $DirectoryLog = "C:\damscrosoft\LOG\$APPS"+"_"+"$APPS2.log"
@@ -65,7 +63,8 @@ try {
 			Write-Log -LogMessage "Choix invalide. Veuillez réessayer." -LogPath $DirectoryLog ; Show-Menu }
 		}
 	}
-    
+    # Appel de la fonction Show-Menu après sa définition
+    Show-Menu
     Write-Log -LogMessage "Code executed successfully" -LogPath $DirectoryLog
 } catch {
     Write-Log -LogMessage "Error occured while executing code: $_" -Append:$False -LogPath $DirectoryLog
