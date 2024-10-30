@@ -58,7 +58,9 @@ try {
 			Reset-Firewall }
 			4 { Write-Log -LogMessage "Choix 4. Block-AllConnections." -LogPath $DirectoryLog
 			Block-AllConnections }
-			5 { Write-Log -LogMessage "Sortie..." -LogPath $DirectoryLog ; exit }
+			5 { Write-Log -LogMessage "Sortie..." -LogPath $DirectoryLog 
+    Write-Log -LogMessage "Code executed successfully" -LogPath $DirectoryLog
+    Write-Log  "******************* END *******************" -LogPath $DirectoryLog; exit }
 			default { 
 			Write-Log -LogMessage "Choix invalide. Veuillez réessayer." -LogPath $DirectoryLog ; Show-Menu }
 		}

@@ -10,7 +10,7 @@
 ###################### INCLUDE  ###################################
 
 #$FunctiontPath = "..\includes\dms-functions-tools-fw.ps1"
-$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "dms-functions-tools-logs.ps1"
+$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "..\includes\dms-functions-tools-fw.ps1"
 
 if (Test-Path $FunctiontPath) {
     . $FunctiontPath
@@ -50,7 +50,7 @@ foreach ($fqdn in $windowsUpdateFQDNs) {
     if ($ipAddresses) {
         Write-Log -LogMessage  "Adresses IPv4 pour $fqdn : $($ipAddresses -join ', ')" -LogPath $DirectoryLog
         # Appeler la fonction pour créer une règle de pare-feu avec toutes les adresses IP
-        Create-FirewallRule -FQDN $fqdn -IPAddresses $ipAddresses
+        Create-FirewallRuleStatic -FQDN $fqdn -IPAddresses $ipAddresses
     } else {
         Write-Log -LogMessage  "Aucune adresse IPv4 trouvée pour $fqdn" -LogPath $DirectoryLog
     }

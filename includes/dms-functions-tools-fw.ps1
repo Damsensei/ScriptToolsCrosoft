@@ -53,6 +53,10 @@ $windowsUpdateFQDNs = @(
     'ntservicepack.microsoft.com',
     'mozilla.org',
     'settings-win.data.microsoft.com',
+    'login.live.com',
+    'slscr.update.microsoft.com',
+    'ocsp.digicert.com',
+    'fe2cr.update.microsoft.com',
     'stats.microsoft.com'
 )
 
@@ -339,3 +343,27 @@ function Get-ResolvedNamesOnly {
         return $null
     }
 }
+
+
+function Create-ScheduledTask {
+    param (
+        [string]$ScriptPath = "C:\path\to\abc.ps1",
+        [string]$taskName = "RunDamsCrosoft_Script_Every5Min"
+    )
+
+    # Crée l'action pour exécuter le script PowerShell en mode caché
+    $action = New-ScheduledTaskAction -Execute "PowerShell.exe" -Argument "-WindowStyle Hidden -File `"$ScriptPath`" -NoProfile"
+
+    # Crée le déclencheur pour répéter toutes les 5 minutes avec une durée maximale de 31 jours
+    $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5) -RepetitionDuration (New-TimeSpan -Days 31)
+
+    # Définit les paramètres pour la tâche en utilisant le compte courant
+    $principal = New-ScheduledTaskPrincipal -UserId "$env:USERNAME" -LogonType Interactive -RunLevel Highest
+
+    # Crée la tâche planifiée
+    Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $trigger -Principal $principal -Description "Exécute abc.ps1 toutes les 5 minutes en mode masqué"
+}
+
+# Appeler la fonction en spécifiant le chemin complet du script à exécuter
+Create-ScheduledTask -ScriptPath "C:\Users\randorisec\Desktop\damscrosoft-main\FIREWALL\dms-main-UpdateRules-fw.ps1"
+

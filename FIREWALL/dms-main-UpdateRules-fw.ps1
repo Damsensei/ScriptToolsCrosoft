@@ -1,4 +1,4 @@
-﻿ <#
+﻿<#
     Author: DAMIEN CHANTEPIE 
     Reviewed : /
     Version: 1.0
@@ -6,10 +6,9 @@
     Description: Mise à jour des FQDN et IP des Règles Firewall
 #>
 
-
 ###################### INCLUDE  ###################################
 
-$FunctiontPath = "..\includes\dms-functions-tools-fw.ps1"
+$FunctiontPath = Join-Path -Path $PSScriptRoot -ChildPath "..\includes\dms-functions-tools-fw.ps1"
 
 if (Test-Path $FunctiontPath) {
     . $FunctiontPath
@@ -26,43 +25,68 @@ $APPS2 = "CreateFile"
 $DirectoryLog = "C:\damscrosoft\LOG\$APPS"+"_"+"$APPS2.log"
 $Directory = "C:\damscrosoft\SOURCES\$APPS\$APPS2"
 
-
-###################### MAIN  ###################################
+###################### MAIN ###################################
+###################### MAIN ###################################
 
 Write-Log -LogMessage "******************* START *******************" -LogPath $DirectoryLog
+
 try {
-  
+    # Vérifier et créer le répertoire de logs si nécessaire
     if (!(Test-Path $Directory)) {
         New-Item -ItemType Directory -Path $Directory | Out-Null
     }
 
-    Write-Log -LogMessage "Create File" -LogPath $DirectoryLog
-    # 1. Récupérer les règles de pare-feu sortantes
+    Write-Log -LogMessage "Création du fichier" -LogPath $DirectoryLog
+
+    # Récupérer les règles de pare-feu sortantes existantes
     $outboundRules = Get-NetFirewallRule -Direction Outbound
 
+    # Pour chaque règle existante, traiter le FQDN associé
     foreach ($rule in $outboundRules) {
-        # 2. Extraire le FQDN du nom de la règle si présent
-        if ($rule.DisplayName -match '\[(.*?)\]') {
-            $fqdn = $matches[1]  # Capture le FQDN entre les crochets dans le DisplayName
+        $fqdn = $rule.DisplayName -replace '.*\[(.*?)\].*', '$1'  # Extraire le FQDN entre crochets
+        Write-Log -LogMessage "Traitement du FQDN : $fqdn" -LogPath $DirectoryLog
 
-            # 3. Récupérer les nouvelles adresses IP pour ce FQDN
-            $newIPAddresses = Get-IPv4FromFQDN -FQDN $fqdn
+        # Récupérer les adresses IP pour le FQDN
+        $ipAddresses = Get-IPv4FromFQDN -FQDN $fqdn
 
-            if ($newIPAddresses) {
-                Write-Log -LogMessage "Mise à jour de la règle pour FQDN : $fqdn avec les nouvelles adresses IP : $newIPAddresses" -LogPath $DirectoryLog
+        if ($ipAddresses) {
+            Write-Log -LogMessage "Adresses IPv4 pour $fqdn : $($ipAddresses -join ', ')" -LogPath $DirectoryLog
 
-                # 4. Mettre à jour la règle de pare-feu avec les nouvelles adresses IP
-                Update-FirewallIPs -FQDN $fqdn -NewIPAddresses $newIPAddresses
+            # Chercher une règle existante pour ce FQDN
+            $existingRule = $outboundRules | Where-Object { $_.DisplayName -match "\[$fqdn\]" }
+
+            if ($existingRule) {
+                # Si une règle existe, mettre à jour les adresses IP
+                Write-Log -LogMessage "Mise à jour de la règle pour FQDN : $fqdn avec les nouvelles adresses IP" -LogPath $DirectoryLog
+                Update-FirewallIPs -FQDN $fqdn -NewIPAddresses $ipAddresses
             } else {
-                Write-Log -LogMessage "Impossible de résoudre des adresses pour le FQDN : $fqdn" -LogPath $DirectoryLog
+                # Sinon, créer une nouvelle règle pour ce FQDN
+                Write-Log -LogMessage "Création d'une nouvelle règle pour le FQDN : $fqdn" -LogPath $DirectoryLog
+                Create-FirewallRuleStatic -FQDN $fqdn -IPAddresses $ipAddresses
             }
         } else {
-            Write-Log -LogMessage"Aucun FQDN trouvé dans la règle : $($rule.DisplayName)" -LogPath $DirectoryLog
+            Write-Log -LogMessage "Aucune adresse IPv4 trouvée pour $fqdn" -LogPath $DirectoryLog
+        }
+
+        # Optionnel : traiter les noms résolus supplémentaires pour chaque FQDN
+        $resolvedNames = Get-ResolvedNamesOnly -FQDN $fqdn
+        if ($resolvedNames) {
+            foreach ($resolvedName in $resolvedNames) {
+                $ipAddresses = Get-IPv4FromFQDN $resolvedName
+                if ($ipAddresses) {
+                    Write-Log -LogMessage "Création d'une règle pour le nom résolu $resolvedName avec IP : $($ipAddresses -join ', ')" -LogPath $DirectoryLog
+                    Create-FirewallRuleStatic -FQDN $resolvedName -IPAddresses $ipAddresses
+                } else {
+                    Write-Log -LogMessage "Aucune adresse IPv4 trouvée pour le nom résolu $resolvedName" -LogPath $DirectoryLog
+                }
+            }
         }
     }
 
-    Write-Log -LogMessage "Code executed successfully" -LogPath $DirectoryLog
+    Write-Log -LogMessage "Code exécuté avec succès" -LogPath $DirectoryLog
+
 } catch {
-    Write-Log -LogMessage "Error occured while executing code: $_" -Append:$False -LogPath $DirectoryLog
+    Write-Log -LogMessage "Erreur lors de l'exécution du code : $_" -Append:$False -LogPath $DirectoryLog
 }
-Write-Log  "******************* END *******************" -LogPath $DirectoryLog
+
+Write-Log -LogMessage "******************* END *******************" -LogPath $DirectoryLog
